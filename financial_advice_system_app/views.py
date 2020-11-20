@@ -4,6 +4,7 @@ from .forms import StockForm
 from django.contrib import messages
 
 # Create your views here.
+#Function for home.html rendering
 def home(request):
 	import requests
 	import json
@@ -21,11 +22,11 @@ def home(request):
 	else:
 		return render(request, 'home.html', {'ticker': "Enter a Ticker Symbol Above..."})
 
-
+#Function for about.html rendering
 def about(request):
 	return render(request, 'about.html', {})
 
-
+#Function for add_stock.html rendering
 def add_stock(request):
 	import requests
 	import json
@@ -51,12 +52,14 @@ def add_stock(request):
 				api = "Error..."
 		return render(request, 'add_stock.html', {'ticker': ticker, 'output': output})
 
+#Function for deleting stock from database
 def delete(request, stock_id):
 	item = Stock.objects.get(pk=stock_id)
 	item.delete()
 	messages.success(request, ("Stock Has Been Deleted!"))
 	return redirect(delete_stock)
 
+#Function for delete_stock.html rendering
 def delete_stock(request):
 	ticker = Stock.objects.all()
 	return render(request, 'delete_stock.html', {'ticker': ticker})
